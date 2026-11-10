@@ -5,6 +5,7 @@ import { btnPrimary } from "@/lib/ui";
 const NAV = [
   { href: "/sobre", label: "Sobre" },
   { href: "/servicos", label: "Serviços" },
+  { href: "/planos", label: "Planos" },
   { href: "/portfolio", label: "Portfólio" },
   { href: "/contato", label: "Contato" },
 ];

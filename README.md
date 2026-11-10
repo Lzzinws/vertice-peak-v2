@@ -2,8 +2,8 @@
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase (Auth, Postgres, Storage) · Vercel.
 
-- **Site público:** `/`, `/sobre`, `/servicos`, `/portfolio`, `/portfolio/[slug]`, `/contato`.
-- **Painel:** `/admin` (somente administradores cadastrados na tabela `admins`).
+- **Site público:** `/`, `/sobre`, `/servicos`, `/planos`, `/portfolio`, `/portfolio/[slug]`, `/contato`.
+- **Painel:** `/admin` (somente administradores cadastrados na tabela `admins`). Inclui **Planos e preços** em `/admin/planos`: nome, valor em R$ (ex.: `1.290,00`, ou vazio para "Sob consulta"), cobrança, lista de itens, destaque "Mais escolhido" e prévia ao vivo.
 - **Conteúdo dinâmico:** tudo que é salvo no painel aparece no site imediatamente (cada páginas é renderizada no servidor e o cache é invalidado após cada alteração). Não há deploy manual para atualizar conteúdo.
 
 ## 1. Rodar localmente
@@ -23,7 +23,8 @@ Sem as variáveis do Supabase, o site público continua no ar com o conteúdo pa
 3. **Rode as migrações** no *SQL Editor*, nesta ordem:
    1. `supabase/migrations/0001_schema.sql` (tabelas e índices)
    2. `supabase/migrations/0002_rls.sql` (funções, políticas RLS e bucket `media`)
-   3. `supabase/seed.sql` (configurações iniciais, serviços e os 3 modelos do site atual). Pode rodar de novo sem duplicar nada.
+   3. `supabase/migrations/0003_plans.sql` (tabela de planos e preços, com RLS)
+   4. `supabase/seed.sql` (configurações iniciais, serviços e os 3 modelos do site atual). Pode rodar de novo sem duplicar nada.
 4. **Crie o administrador**: em *Authentication → Users → Add user → Create new user*, informe o e-mail e uma senha forte. Depois rode no *SQL Editor* (troque o e-mail):
 
    ```sql

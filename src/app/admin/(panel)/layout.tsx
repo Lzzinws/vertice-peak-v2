@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { LayoutDashboard, FolderKanban, Briefcase, Quote, Inbox, FileText, Settings, LogOut, Home as HomeIcon } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Briefcase, Quote, Inbox, FileText, Settings, LogOut, Home as HomeIcon, Tags } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 import { isSupabaseConfigured } from "@/lib/env";
 import { signOut } from "@/app/admin/login/actions";
@@ -14,6 +14,7 @@ const NAV = [
   { href: "/admin/contatos", label: "Contatos", icon: Inbox },
   { href: "/admin/projetos", label: "Projetos", icon: FolderKanban },
   { href: "/admin/servicos", label: "Serviços", icon: Briefcase },
+  { href: "/admin/planos", label: "Planos e preços", icon: Tags },
   { href: "/admin/depoimentos", label: "Depoimentos", icon: Quote },
   { href: "/admin/conteudo/home", label: "Textos da home", icon: HomeIcon },
   { href: "/admin/conteudo/sobre", label: "Sobre nós", icon: FileText },

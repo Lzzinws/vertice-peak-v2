@@ -7,7 +7,8 @@ import { btnPrimary, errorText, hint, input, label } from "@/lib/ui";
 
 const BUDGETS = ["Prefiro não informar", "Até R$ 2.000", "R$ 2.000 a R$ 5.000", "Acima de R$ 5.000"];
 
-export function LeadForm({ services }: { services: string[] }) {
+export function LeadForm({ services, initialService = "" }: { services: string[]; initialService?: string }) {
+  const options = initialService && !services.includes(initialService) ? [initialService, ...services] : services;
   const [state, formAction, pending] = useActionState(submitLead, INITIAL_STATE);
 
   if (state.ok) {
@@ -51,9 +52,9 @@ export function LeadForm({ services }: { services: string[] }) {
           <input id="whatsapp" name="whatsapp" type="tel" autoComplete="tel" className={input} aria-invalid={!!err.whatsapp} required />
         </Field>
         <Field id="service" label="Serviço desejado *" error={err.service}>
-          <select id="service" name="service" className={input} aria-invalid={!!err.service} required defaultValue="">
+          <select id="service" name="service" className={input} aria-invalid={!!err.service} required defaultValue={initialService}>
             <option value="" disabled>Escolha uma opção</option>
-            {services.map((s) => (
+            {options.map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}
             <option value="Outro">Outro</option>

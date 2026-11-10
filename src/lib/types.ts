@@ -2,6 +2,9 @@ export const PROJECT_STATUSES = ["draft", "published"] as const;
 export const LEAD_STATUSES = ["novo", "em_atendimento", "convertido", "arquivado"] as const;
 export const SERVICE_ICONS = ["globe", "target", "book-open", "megaphone", "image", "pen-tool", "sparkles"] as const;
 
+export const BILLING_PERIODS = ["unico", "mensal", "anual"] as const;
+export type BillingPeriod = (typeof BILLING_PERIODS)[number];
+
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 export type ServiceIcon = (typeof SERVICE_ICONS)[number];
 
@@ -104,4 +107,19 @@ export type SiteContent = {
   footer: Footer;
   home: HomeContent;
   about: AboutContent;
+};
+
+export type Plan = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number | null;
+  billing_period: BillingPeriod;
+  features: string[];
+  highlight: boolean;
+  cta_label: string;
+  published: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
 };

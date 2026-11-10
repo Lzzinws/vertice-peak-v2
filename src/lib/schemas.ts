@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { LEAD_STATUSES, SERVICE_ICONS } from "@/lib/types";
+import { BILLING_PERIODS, LEAD_STATUSES, SERVICE_ICONS } from "@/lib/types";
+import { parseBRL } from "@/lib/money";
 import { SLUG_PATTERN } from "@/lib/slug";
 import { onlyDigits } from "@/lib/whatsapp";
 
@@ -118,6 +119,25 @@ export const aboutSettingsSchema = z.object({
   purpose: optionalText(3000),
   differentials: z.array(z.string().trim().min(1).max(200)).max(20, "Use no máximo 20 diferenciais"),
 });
+
+export const planSchema = z.object({
+  name: z.string().trim().min(2, "Informe o nome do plano").max(80),
+  description: optionalText(300),
+  priceText: z.string().trim().max(30),
+  billingPeriod: z.enum(BILLING_PERIODS, { message: "Escolha a cobrança" }),
+  features: z.array(z.string().trim().min(1).max(160)).max(20, "Use no máximo 20 itens"),
+  highlight: z.boolean(),
+  ctaLabel: z.string().trim().min(2, "Informe o texto do botão").max(40),
+  published: z.boolean(),
+  sortOrder: z.coerce.number().int().min(0).max(9999),
+}).superRefine((plan, ctx) => {
+  const price = parseBRL(plan.priceText);
+  if (Number.isNaN(price) || (price !== null && (price < 0 || price > 1000000))) {
+    ctx.addIssue({ code: "custom", path: ["priceText"], message: "Informe um preço válido, ex.: 1.290,00 (ou deixe vazio para sob consulta)" });
+  }
+});
+
+export type PlanInput = z.infer<typeof planSchema>;
 
 export type ProjectInput = z.infer<typeof projectSchema>;
 export type ServiceInput = z.infer<typeof serviceSchema>;

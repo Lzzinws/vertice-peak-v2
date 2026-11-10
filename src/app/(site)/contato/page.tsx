@@ -15,7 +15,8 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/contato") },
 };
 
-export default async function ContatoPage() {
+export default async function ContatoPage({ searchParams }: { searchParams: Promise<{ servico?: string }> }) {
+  const { servico } = await searchParams;
   const [{ contact, socials }, services] = await Promise.all([getSiteContent(), getPublishedServices()]);
   const whatsappUrl = buildWhatsAppUrl(contact.whatsapp, "Olá! Gostaria de conversar sobre um projeto.");
   const activeSocials = Object.entries(socials).filter(([, url]) => url) as [string, string][];
@@ -36,7 +37,7 @@ export default async function ContatoPage() {
       </section>
 
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.4fr_1fr]">
-        <LeadForm services={services.map((s) => s.title)} />
+        <LeadForm services={services.map((s) => s.title)} initialService={servico?.slice(0, 120)} />
 
         <aside className="space-y-5">
           {whatsappUrl && (

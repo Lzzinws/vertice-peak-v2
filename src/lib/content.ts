@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { createPublicSupabaseClient } from "@/lib/supabase/public";
 import { DEFAULT_SERVICES, DEFAULT_SITE_CONTENT } from "@/lib/defaults";
-import type { Project, Service, SiteContent, Testimonial } from "@/lib/types";
+import type { Plan, Project, Service, SiteContent, Testimonial } from "@/lib/types";
 
 /**
  * Leituras do site público. Usam apenas o cliente anon: o RLS garante que só conteúdo
@@ -104,6 +104,23 @@ export const getPublishedTestimonials = cache(async (): Promise<Testimonial[]> =
     return (data ?? []) as Testimonial[];
   } catch (error) {
     logFailure("testimonials", error);
+    return [];
+  }
+});
+
+export const getPublishedPlans = cache(async (): Promise<Plan[]> => {
+  const client = createPublicSupabaseClient();
+  if (!client) return [];
+  try {
+    const { data, error } = await client
+      .from("plans")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order", { ascending: true });
+    if (error) throw error;
+    return (data ?? []) as Plan[];
+  } catch (error) {
+    logFailure("plans", error);
     return [];
   }
 });
