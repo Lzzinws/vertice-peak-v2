@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* Identidade Vértice Peak (extraída do site atual). */
+@theme {
+  --color-ink: #050505;
+  --color-ink-2: #0a0b07;
+  --color-surface: #0f1208;
+  --color-olive: #1a2304;
+  --color-lime: #b6ff00;
+  --color-lime-deep: #8fd000;
+  --color-muted: #a3ab9a;
+  --color-line: rgb(182 255 0 / 0.14);
+
+  --font-display: "Arial Black", "Arial Bold", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-body: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: #fff;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* Animações suaves: entrada no carregamento e revelação ao rolar (quando suportado). */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.animate-rise-delay {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(182 255 0 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(182 255 0 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.glow {
+  background: radial-gradient(closest-side, rgb(182 255 0 / 0.22), transparent 70%);
+}
